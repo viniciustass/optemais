@@ -16,7 +16,7 @@
 <config>
     <modules>
         <CsuMarketSystem_OpteMais>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
         </CsuMarketSystem_OpteMais>
     </modules>
     <global>
