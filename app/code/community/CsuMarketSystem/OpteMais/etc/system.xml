@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL).
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    CsuMarketSystem
+ * @package     CsuMarketSystem_OpteMais
+ * @copyright   Copyright (c) 2016 CSU MarketSystem [www.csu.com.br]
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <sections>
+        <optemais translate="label">
+            <label>API CSU MarketSystem OPTe+</label>
+            <tab>service</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>500</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <comment>
+                    <label>Instruções para Uso e Configurações</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[
+
+                        <h3>Configurações necessárias</h3>
+
+                        Para o funcionamento de todos os recursos, os atributos devem ser criados com as seguintes configurações:<br/>
+                        <li>Escopo: Para produtos simples utilizar <b>Visão da Loja</b>;</li>
+                        <li>Escopo: Para produtos configuráveis utilizar <b>Global</b>;</li>
+                        <li>Usado na Listagem de Produtos: <b>Sim</b>.</li><br/>
+
+                        <h3>Observações importantes</h3>
+
+                        <li>Produtos desativados, sem categoria ou sem informação para a composição do SKU (como cor, tamanho, etc) não serão considerados na carga;</li>
+                        ]]>
+                    </comment>
+                </comment>
+                <config>
+                    <label>Configurações Gerais</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active>
+                            <label translate="label">Ativo</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <username>
+                            <label translate="label">
+                                <![CDATA[Usuário <span class='required'>*</span>]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment><![CDATA[Usuário autorizado para a integração.]]></comment>
+                        </username>
+                        <password>
+                            <label translate="label">
+                                <![CDATA[Senha <span class='required'>*</span>]]></label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment><![CDATA[Senha autorizada para a integração.]]></comment>
+                        </password>
+                    </fields>
+                </config>
+                <config_product>
+                    <label>Produtos</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <use_parent_images>
+                            <label translate="label">Utilizar imagens do Produto Pai (Configurável) quando não houver imagens no Produto Filho (Simples)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </use_parent_images>
+                        <items_per_page>
+                            <label translate="label">
+                                <![CDATA[Quantidade de itens por página <span class='required'>*</span>]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment><![CDATA[Utilizado para carga de produtos e disponibilidade.]]></comment>
+                        </items_per_page>
+                        <discount_min_qty translate="label">
+                            <label>Descontar a quantidade mínima configurada para o cálculo de estoque</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Calcula o estoque descontando a quantidade mínima configurada no produto.</comment>
+                        </discount_min_qty>
+                        <use_parent_price translate="label">
+                            <label>Considerar o preço do Produto Pai (Configuráveis)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Em produtos configuráveis, onde há produtos filhos, caso esse opção esteja ativa, o preço que será enviado à OPTe+ sempre será o do produto pai, desconsiderando sempre o preço dos produtos filhos.</comment>
+                        </use_parent_price>
+                    </fields>
+                </config_product>
+                <config_attribute>
+                    <label>Atributos</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <attribute_product_description translate="label,comment">
+                            <label><![CDATA[Descrição Detalhada <span class='required'>*</span>]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Attributes</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-one-select</validate>
+                            <comment><![CDATA[Atributo que representa a Descrição Detalhada de Produtos.]]></comment>
+                        </attribute_product_description>
+                        <attribute_product_brand translate="label,comment">
+                            <label><![CDATA[Marca <span class='required'>*</span>]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Select_Attributes</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-one-select</validate>
+                            <comment><![CDATA[Atributo que representa a Marca de Produtos.]]></comment>
+                        </attribute_product_brand>
+                        <attribute_product_color translate="label,comment">
+                            <label>Cor</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Select_Attributes</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Atributo que representa a cor dos produtos.<br/>Exemplo: <b>Vermelho, Preto</b>.]]></comment>
+                        </attribute_product_color>
+                        <attribute_product_size translate="label,comment">
+                            <label>Tamanho</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Select_Attributes</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Atributo que representa o tamanho dos produtos.<br/>Exemplo: <b>36, 37, 34/35</b>.]]></comment>
+                        </attribute_product_size>
+                        <attribute_product_voltage translate="label,comment">
+                            <label>Voltagem</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Select_Attributes</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Atributo que representa a voltagem dos produtos.<br/>Exemplo: <b>110v, 220v</b>.]]></comment>
+                        </attribute_product_voltage>
+                        <attribute_product_ean translate="label,comment">
+                            <label>EAN</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Attributes</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Atributo que representa o código EAN do produto.]]></comment>
+                        </attribute_product_ean>
+                        <attribute_product_refid translate="label,comment">
+                            <label>RefID</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Attributes</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Atributo que representa o código RefID do produto.]]></comment>
+                        </attribute_product_refid>
+                        <product_specifications translate="label,comment">
+                            <label>Especificações do Produto</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Allattributes</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </product_specifications>
+                    </fields>
+                </config_attribute>
+                <config_shipping>
+                    <label>Configurações de Entrega</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>4</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <delivery_time_variable>
+                            <label translate="label">
+                                <![CDATA[Nome da variável no módulo de frete para o Prazo de Entrega]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Opção avançada: Entre em contato com suporte de sua loja.]]></comment>
+                        </delivery_time_variable>
+                        <delivery_time_default>
+                            <label translate="label">
+                                <![CDATA[Prazo padrão de Entrega]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Será utilizado caso o serviço de frete não retorne o prazo de entrega nos cálculos de frete.]]></comment>
+                        </delivery_time_default>
+                        <price_type translate="label,comment">
+                            <label>Tipo de preço de frete para ser enviado para CSU</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Shipping_Pricetype</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Só é aceito um preço de frete por produto na CSU OPTe+, como o Magento pode resultar mais de um preço, é necessário que defina-se um tipo (menor ou maior) de preço para ser enviado.]]></comment>
+                        </price_type>
+                        <allowed_shipping_methods>
+                            <label>Métodos de Envio Disponíveis</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Shippingmethodcarriers</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Defina somente os métodos que serão utilizados na integração com a CSU. <strong>OBS: Para disponibilizar todos selecione todos ou deixe sem seleção (item vazio).</strong>]]></comment>
+                        </allowed_shipping_methods>
+                    </fields>
+                </config_shipping>
+                <config_order>
+                    <label>Configurações de Pedido</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>5</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <default_store_id translate="label">
+                            <label>Loja Padrão para Pedidos</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Stores</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </default_store_id>
+                        <shipping_method translate="label">
+                            <label>Método de Envio Padrão para Pedidos</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Shippingmethods</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipping_method>
+                        <attribute_cpf translate="label,comment">
+                            <label><![CDATA[Atributo CPF]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Customer_Attributes</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Atributo que representa o CPF no cadastro do cliente.]]></comment>
+                        </attribute_cpf>
+                        <attribute_cnpj translate="label,comment">
+                            <label><![CDATA[Atributo CNPJ]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Customer_Attributes</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Atributo que representa o CNPJ no cadastro do cliente.]]></comment>
+                        </attribute_cnpj>
+                        <attribute_razao_social translate="label,comment">
+                            <label><![CDATA[Atributo Razão Social]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Customer_Attributes</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Atributo que representa a Razão Social no cadastro do cliente.]]></comment>
+                        </attribute_razao_social>
+                        <attribute_tipo_pessoa translate="label,comment">
+                            <label><![CDATA[Atributo Tipo Pessoa]]></label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>CsuMarketSystem_OpteMais_Model_Source_Customer_Attributes</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Atributo que representa a Tipo Pessoa (PJ ou PF) no cadastro do cliente.]]></comment>
+                        </attribute_tipo_pessoa>
+                        <tipo_pessoa_value_pf>
+                            <label translate="label">
+                                <![CDATA[Valor para o Tipo Pessoa para Pessoa Física<span class='required'>*</span>]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                        </tipo_pessoa_value_pf>
+                        <tipo_pessoa_value_pj>
+                            <label translate="label">
+                                <![CDATA[Valor para o Tipo Pessoa para Pessoa Júridica<span class='required'>*</span>]]></label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                        </tipo_pessoa_value_pj>
+                        <payment_method translate="label,comment">
+                            <label>Métodos de Pagamento e Parcelamentos</label>
+                            <frontend_model>optemais/adminhtml_paymentmethod</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Utilize somente se a finalização dos pedidos no ambiente CSU OPTe+ for utilizar os Métodos de Pagamento de sua loja.]]></comment>
+                        </payment_method>
+                    </fields>
+                </config_order>
+                <config_order_status>
+                    <label>Configurações de Status de Pedido</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>6</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <status_approved translate="label,comment">
+                            <label>Pedido Aprovado</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Status na sua loja que representa o status [Pedido Aprovado] para a CSU OPTe+.]]></comment>
+                        </status_approved>
+                        <status_canceled translate="label,comment">
+                            <label>Pedido Cancelado</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Status na sua loja que representa o status [Pedido Cancelado] para a CSU OPTe+.]]></comment>
+                        </status_canceled>
+                        <status_pending translate="label,comment">
+                            <label>Pedido Pendente</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Status na sua loja que representa o status [Pedido Pendente] para a CSU OPTe+.]]></comment>
+                        </status_pending>
+                        <status_await_release translate="label,comment">
+                            <label>Pedido Aguardando Liberação</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Status na sua loja que representa o status [Pedido Aguardando Liberação] para a CSU OPTe+.]]></comment>
+                        </status_await_release>
+                        <status_delivered translate="label,comment">
+                            <label>Pedido Entregue</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Status na sua loja que representa o status [Pedido Entregue] para a CSU OPTe+.]]></comment>
+                        </status_delivered>
+                        <status_refunded translate="label,comment">
+                            <label>Pedido Devolvido</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[Status na sua loja que representa o status [Pedido Devolvido] para a CSU OPTe+.]]></comment>
+                        </status_refunded>
+                    </fields>
+                </config_order_status>
+            </groups>
+        </optemais>
+        <payment translate="label" module="payment">
+            <groups>
+                <optemais_modelc translate="label">
+                    <label>CSU MarketSystem OPTe+</label>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                    </fields>
+                </optemais_modelc>
+            </groups>
+        </payment>
+    </sections>
+</config>
