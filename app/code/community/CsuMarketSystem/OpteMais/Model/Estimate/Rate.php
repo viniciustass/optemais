@@ -284,13 +284,16 @@ class CsuMarketSystem_OpteMais_Model_Estimate_Rate
         return $this->_customer;
     }
 
-
+    /**
+     * Retrieve parent product ID
+     *
+     * @return string|boolean
+     */
     private function _getParentId($childId)
     {
         $parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')
             ->getParentIdsByChild($childId);
         return is_array($parentIds) && isset($parentIds[0]) ? $parentIds[0] : false;
     }
-
 
 }
