@@ -1,2 +1,3 @@
-# optemais
-CSU MarketSystem Opte+
+# CSU MarketSystem Opte+
+
+Magento extension for CSU MarketSystem Opte+
